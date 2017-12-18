@@ -10,67 +10,84 @@ import UIKit
 
 class ViewController: UIViewController,URLSessionDownloadDelegate {
 
-    let shapeLayer = CAShapeLayer()
+    var shapeLayer = CAShapeLayer()
     
     var pulsatingLayer = CAShapeLayer()
     
     let percentageLabel: UILabel = {
         let view = UILabel()
         view.text = "Start"
+        view.textColor = .white
         view.textAlignment = .center
         view.font = UIFont.boldSystemFont(ofSize: 32)
         return view
     }()
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        
+        return .lightContent
+    }
+    
+    private func setupNotificationObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleEnterForeground), name: .UIApplicationWillEnterForeground, object: nil)
+    }
+    
+    @objc private func handleEnterForeground(){
+        animatePulsatingLayer()
+    }
+    
+    private func createCircleShapeLayer(strokeColor : UIColor, fillColor : UIColor) -> CAShapeLayer {
+        let circularPath = UIBezierPath(arcCenter: .zero, radius: 100, startAngle: 0, endAngle: 2 * (CGFloat.pi) , clockwise: true)
+        let layer = CAShapeLayer()
+        let center = view.center
+        layer.path = circularPath.cgPath
+        layer.strokeColor = strokeColor.cgColor
+        layer.lineWidth = 20
+        layer.lineCap = kCALineCapRound
+        layer.fillColor = fillColor.cgColor
+        layer.position = center
+        return layer
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     
-        view.backgroundColor = .white
-        let center = view.center
-        //create track layer
-        let tracklayer = CAShapeLayer()
-        let circularPath = UIBezierPath(arcCenter: .zero, radius: 100, startAngle: 0, endAngle: 2 * (CGFloat.pi) , clockwise: true)
+        setupCircleLayers()
+        setupNotificationObservers()
         
-        tracklayer.path = circularPath.cgPath
-        tracklayer.strokeColor = UIColor.lightGray.cgColor
-        tracklayer.lineWidth = 10
-        tracklayer.lineCap = kCALineCapRound
-        tracklayer.fillColor = UIColor.clear.cgColor
-        tracklayer.position = center
-        view.layer.addSublayer(tracklayer)
-        
-        
-        pulsatingLayer.path = circularPath.cgPath
-        pulsatingLayer.strokeColor = UIColor.clear.cgColor
-        pulsatingLayer.lineWidth = 10
-        pulsatingLayer.lineCap = kCALineCapRound
-        pulsatingLayer.fillColor = UIColor.yellow.cgColor
-        pulsatingLayer.position = center
-        view.layer.addSublayer(pulsatingLayer)
-        
-        animatePulsatingLayer()
-        
-        shapeLayer.path = circularPath.cgPath
-        shapeLayer.strokeColor = UIColor.red.cgColor
-        shapeLayer.lineWidth = 10
-        shapeLayer.strokeEnd = 0
-        shapeLayer.lineCap = kCALineCapRound
-        shapeLayer.fillColor = UIColor.clear.cgColor
-        shapeLayer.position = center
-        shapeLayer.transform = CATransform3DMakeRotation(-CGFloat.pi/2, 0, 0, 1)
-        
-        view.layer.addSublayer(shapeLayer)
+        view.backgroundColor = UIColor.backgroundColor
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap)))
         
+        setupPercentageLabels()
+    }
+    
+    private func setupPercentageLabels(){
         view.addSubview(percentageLabel)
         percentageLabel.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         percentageLabel.center = view.center
+        
+    }
+    
+    private func setupCircleLayers(){
+        pulsatingLayer = createCircleShapeLayer(strokeColor: .clear, fillColor: UIColor.pulsatingFillColor)
+        view.layer.addSublayer(pulsatingLayer)
+        
+        let tracklayer = createCircleShapeLayer(strokeColor: UIColor.trackStrokeColor, fillColor: UIColor.backgroundColor)
+        view.layer.addSublayer(tracklayer)
+        
+        animatePulsatingLayer()
+        
+        shapeLayer = createCircleShapeLayer(strokeColor: UIColor.outlineStrokeColor, fillColor: .clear)
+        shapeLayer.transform = CATransform3DMakeRotation(-CGFloat.pi/2, 0, 0, 1)
+        shapeLayer.strokeEnd = 0
+        
+        view.layer.addSublayer(shapeLayer)
     }
     
     private func animatePulsatingLayer(){
         let animation = CABasicAnimation(keyPath: "transform.scale")
         animation.duration = 0.8
-        animation.toValue = 1.5
+        animation.toValue = 1.3
         animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
         animation.autoreverses = true
         animation.repeatCount = Float.infinity

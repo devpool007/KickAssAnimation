@@ -13,6 +13,7 @@
 		373A5B5B1FE82DC400851861 /* KickAssAnimation.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 373A5B591FE82DC400851861 /* KickAssAnimation.xcdatamodeld */; };
 		373A5B5D1FE82DC400851861 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 373A5B5C1FE82DC400851861 /* Assets.xcassets */; };
 		373A5B601FE82DC500851861 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 373A5B5E1FE82DC500851861 /* LaunchScreen.storyboard */; };
+		373A5B681FE8627700851861 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 373A5B671FE8627700851861 /* Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		373A5B5C1FE82DC400851861 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		373A5B5F1FE82DC500851861 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		373A5B611FE82DC500851861 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		373A5B671FE8627700851861 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 				373A5B541FE82DC400851861 /* ViewController.swift */,
 				373A5B561FE82DC400851861 /* Main.storyboard */,
 				373A5B5C1FE82DC400851861 /* Assets.xcassets */,
+				373A5B671FE8627700851861 /* Extension.swift */,
 				373A5B5E1FE82DC500851861 /* LaunchScreen.storyboard */,
 				373A5B611FE82DC500851861 /* Info.plist */,
 				373A5B591FE82DC400851861 /* KickAssAnimation.xcdatamodeld */,
@@ -142,6 +145,7 @@
 				373A5B551FE82DC400851861 /* ViewController.swift in Sources */,
 				373A5B5B1FE82DC400851861 /* KickAssAnimation.xcdatamodeld in Sources */,
 				373A5B531FE82DC400851861 /* AppDelegate.swift in Sources */,
+				373A5B681FE8627700851861 /* Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
