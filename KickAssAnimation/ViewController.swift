@@ -12,6 +12,8 @@ class ViewController: UIViewController,URLSessionDownloadDelegate {
 
     let shapeLayer = CAShapeLayer()
     
+    var pulsatingLayer = CAShapeLayer()
+    
     let percentageLabel: UILabel = {
         let view = UILabel()
         view.text = "Start"
@@ -22,11 +24,7 @@ class ViewController: UIViewController,URLSessionDownloadDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.addSubview(percentageLabel)
-        percentageLabel.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-        percentageLabel.center = view.center
-        
+    
         view.backgroundColor = .white
         let center = view.center
         //create track layer
@@ -42,6 +40,16 @@ class ViewController: UIViewController,URLSessionDownloadDelegate {
         view.layer.addSublayer(tracklayer)
         
         
+        pulsatingLayer.path = circularPath.cgPath
+        pulsatingLayer.strokeColor = UIColor.clear.cgColor
+        pulsatingLayer.lineWidth = 10
+        pulsatingLayer.lineCap = kCALineCapRound
+        pulsatingLayer.fillColor = UIColor.yellow.cgColor
+        pulsatingLayer.position = center
+        view.layer.addSublayer(pulsatingLayer)
+        
+        animatePulsatingLayer()
+        
         shapeLayer.path = circularPath.cgPath
         shapeLayer.strokeColor = UIColor.red.cgColor
         shapeLayer.lineWidth = 10
@@ -54,6 +62,19 @@ class ViewController: UIViewController,URLSessionDownloadDelegate {
         view.layer.addSublayer(shapeLayer)
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap)))
         
+        view.addSubview(percentageLabel)
+        percentageLabel.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+        percentageLabel.center = view.center
+    }
+    
+    private func animatePulsatingLayer(){
+        let animation = CABasicAnimation(keyPath: "transform.scale")
+        animation.duration = 0.8
+        animation.toValue = 1.5
+        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+        animation.autoreverses = true
+        animation.repeatCount = Float.infinity
+        pulsatingLayer.add(animation, forKey: "pulse")
     }
 
     let urlString = "https://firebasestorage.googleapis.com/v0/b/firestorechat-e64ac.appspot.com/o/intermediate_training_rec.mp4?alt=media&token=e20261d0-7219-49d2-b32d-367e1606500c"
